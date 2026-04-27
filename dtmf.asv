@@ -1,0 +1,50 @@
+frow = [697, 770, 852, 941];
+fcol = [1209, 1336, 1477, 1633];
+
+sym = ['1', '4', '7', '*', '2', '5', '8', '0', '3', '6', '9', '#', 'A', 'B', 'C', 'D'];
+symrow = [1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4];
+symcol = [1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4];
+symmtx = [1, 5, 9, 13; 2, 6, 10, 14; 3, 7, 11, 15; 4, 8, 12, 16];
+
+Fs = 4000;
+N = 200;
+
+x = []; % test signal
+symoutref = []; % txd symbols
+
+for i = 1:length(sym)
+    Nsym = N + round(N/2 * rand(1));
+    t = [0:Nsym - 1]/Fs;
+    x1 = sin(2*pi*frow*symrow(i)*t);
+    x2 = sin(2*pi*fcol*symcol(i)*t);
+    x = [x, x1 + x2];
+    symoutref = [symoutref, sym(i)];
+end
+
+bits = 8;
+Q = (max(x) - min(x))/(2^bits);
+x = round(x/Q);
+
+fbin = Fs/n;
+k = round([frow fcol]/fbin); % N high enough so that k is different for each tone
+if any(diff(k) == 0)
+    print("Same k index for different tones!");
+end
+
+xblocks = floor(length(x)/N);
+myspec = [];
+for i = 1:xblocks
+    i1 = (i - 1)*N + 1;
+    i2 = i1 + N - 1;
+    xt = (i1:i2);
+    xt = xt .* hamming(N)';
+    for j = 1:length(k)
+        [I, Q] = goertzel(xt, k(j), N);
+        myspec(i, j) = sqrt(I*I + Q*Q);
+    end
+end
+th = max(myspec(:))/2;
+myspecbin = myspec > th;
+symout = [];
+for i = 1:xblocks
+    i1 = find()
