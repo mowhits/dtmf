@@ -1,4 +1,6 @@
+*.asv
 *.swp
-IAR/Debug
-IAR/Settings
-Obj
+IAR/Debug/BrowseInfo
+IAR/Debug/List
+IAR/Debug/Obj
+IAR/settings
