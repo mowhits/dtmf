@@ -44,11 +44,11 @@
                 </option>
                 <option>
                     <name>Input description</name>
-                    <state></state>
+                    <state>Full formatting, without multibyte support.</state>
                 </option>
                 <option>
                     <name>Output description</name>
-                    <state></state>
+                    <state>Full formatting, without multibyte support.</state>
                 </option>
                 <option>
                     <name>GOutputBinary</name>
@@ -56,7 +56,7 @@
                 </option>
                 <option>
                     <name>OGCoreOrChip</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>GRuntimeLibSelect</name>
@@ -70,15 +70,15 @@
                 </option>
                 <option>
                     <name>RTDescription</name>
-                    <state></state>
+                    <state>A compact configuration of the C/C++14 runtime library. No locale interface, C locale, no file descriptor support, no multibytes in printf and scanf, and no hex floats in strtod.</state>
                 </option>
                 <option>
                     <name>OGLastSavedByProductVersion</name>
-                    <state>9.50.1.69312</state>
+                    <state>9.70.4.21192</state>
                 </option>
                 <option>
                     <name>OGChipSelectEditMenu</name>
-                    <state></state>
+                    <state>LPC2148	NXP LPC2148</state>
                 </option>
                 <option>
                     <name>GenLowLevelInterface</name>
@@ -98,7 +98,7 @@
                 </option>
                 <option>
                     <name>RTConfigPath2</name>
-                    <state></state>
+                    <state>$TOOLKIT_DIR$\inc\c\DLib_Config_Normal.h</state>
                 </option>
                 <option>
                     <name>GBECoreSlave</name>
@@ -120,11 +120,11 @@
                 <option>
                     <name>CoreVariant</name>
                     <version>35</version>
-                    <state>38</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>GFPUDeviceSlave</name>
-                    <state></state>
+                    <state>LPC2148	NXP LPC2148</state>
                 </option>
                 <option>
                     <name>FPU2</name>
@@ -143,7 +143,7 @@
                 <option>
                     <name>GFPUCoreSlave2</name>
                     <version>35</version>
-                    <state>38</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OGCMSISPackSelectDevice</name>
@@ -214,7 +214,7 @@
                 <option>
                     <name>OG_32_64DeviceCoreSlave</name>
                     <version>35</version>
-                    <state>38</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>GOutputSo</name>
@@ -344,7 +344,7 @@
                 </option>
                 <option>
                     <name>OutputFile</name>
-                    <state></state>
+                    <state>$FILE_BNAME$.o</state>
                 </option>
                 <option>
                     <name>CCLibConfigHeader</name>
@@ -674,7 +674,7 @@
                 <option>
                     <name>OOCOutputFormat</name>
                     <version>3</version>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
                 <option>
                     <name>OCOutputOverride</name>
@@ -682,7 +682,7 @@
                 </option>
                 <option>
                     <name>OOCOutputFile</name>
-                    <state></state>
+                    <state>dtmf.hex</state>
                 </option>
                 <option>
                     <name>OOCCommandLineProducer</name>
@@ -690,7 +690,7 @@
                 </option>
                 <option>
                     <name>OOCObjCopyEnable</name>
-                    <state>0</state>
+                    <state>1</state>
                 </option>
             </data>
         </settings>
@@ -2232,7 +2232,13 @@
         </settings>
     </configuration>
     <file>
+        <name>$PROJ_DIR$\lpc214x.h</name>
+    </file>
+    <file>
         <name>$PROJ_DIR$\main.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\sinlut.h</name>
     </file>
     <projectSettings>
         <general>

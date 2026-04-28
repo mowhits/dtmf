@@ -1,5 +1,4 @@
 close all;
-
 % Setup & Signal Generation
 frow = [697, 770, 852, 941];
 fcol = [1209, 1336, 1477, 1633];
@@ -7,17 +6,36 @@ sym = ['1', '4', '7', '*', '2', '5', '8', '0', '3', '6', '9', '#', 'A', 'B', 'C'
 symrow = [1 2 3 4 1 2 3 4 1 2 3 4 1 2 3 4];
 symcol = [1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4];
 symmtx = [1, 5, 9, 13; 2, 6, 10, 14; 3, 7, 11, 15; 4, 8, 12, 16];
-
 Fs = 4000;
 N = 200;
 
 % Efficient signal generation using a cell array
 x_parts = cell(1, length(sym));
 for i = 1:length(sym)
-    Nsym = N; %+ round(N/4 * rand(1));
+    Nsym = N;
     t = (0:Nsym-1)/Fs;
     x_parts{i} = sin(2*pi*frow(symrow(i))*t) + sin(2*pi*fcol(symcol(i))*t);
 end
+
+% --- LUT Generation ---
+Z = cell2mat(x_parts');          % 16x200, each row is one symbol                    % 200x16, samples along rows, symbols along columns
+Z = Z ./ max(abs(Z(:)));         % global normalize to [-1, 1]
+Z_dac = uint16(round((Z + 1) * 511.5));  % map to 10-bit DAC range [0, 1023]
+
+fid = fopen('C:/Users/Mohit/Desktop/DTMF/IAR/sinlut.h', 'w');
+fprintf(fid, '#ifndef SINLUT_H\n#define SINLUT_H\n\n');
+fprintf(fid, '#include <stdint.h>\n\n');
+fprintf(fid, 'static const uint16_t sin_lut[200][16] = {\n');
+for i = 1:16
+    fprintf(fid, '    {');
+    fprintf(fid, '%d, ', Z_dac(i, 1:end-1));
+    fprintf(fid, '%d},\n', Z_dac(i, end));
+end
+fprintf(fid, '};\n\n#endif\n');
+fclose(fid);
+fprintf('sinlut.h written\n');
+% --- End LUT Generation ---
+
 x = [x_parts{:}];
 
 % 8-bit Quantization
@@ -29,48 +47,37 @@ x = round(x/Q);
 fbin = Fs/N;
 k = round([frow fcol]/fbin);
 
-% Use buffer to split signal into N-length blocks automatically
-x_blocks = buffer(x, N, 0, 'nodelay'); 
-x_blocks = x_blocks .* hamming(N); % Apply window to all blocks at once
+x_blocks = buffer(x, N, 0, 'nodelay');
+x_blocks = x_blocks .* hamming(N);
 
-% Run Goertzel on the entire matrix at once (k+1 for 1-based indexing)
-myspec = abs(goertzel(x_blocks, k + 1))'; 
-
+myspec = abs(goertzel(x_blocks, k + 1))';
 th = max(myspec(:))/2;
 myspecbin = myspec > th;
 xblocks = size(myspec, 1);
 symout = repmat(' ', 1, xblocks);
-
 for i = 1:xblocks
-    % searches for row frequency peak: 697-941
     idx1 = find(myspecbin(i, 1:4), 1);
-    % searches for col frequency peak: 1209-1633
     idx2 = find(myspecbin(i, 5:8), 1);
-    
     if ~isempty(idx1) && ~isempty(idx2)
         symout(i) = sym(symmtx(idx1, idx2));
     end
 end
 
-% Visuals (Original Titles)
-fprintf('reference string: %s\n', sym); % Simplified for demo
+fprintf('reference string: %s\n', sym);
 fprintf('decoded string:   %s\n', symout);
 
-
-figure; 
-imagesc((0:xblocks)*N/Fs*1000, fbin*k/1000, myspec'); 
-axis xy;
-colorbar;
-xlabel('Time (ms)'); ylabel('Frequency (kHz)');
-title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-point Goertzel', bits, Fs/1000, N));
-
-figure; 
-imagesc((0:xblocks)*N/Fs*1000, fbin*k/1000, myspecbin'); 
-axis xy;
-colorbar;
-xlabel('Time (ms)'); ylabel('Frequency (kHz)');
-title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-point Goertzel, th=%1.f', bits, Fs/1000, N, th));
-
-figure; 
-spectrogram(x, hamming(128), 120, 128, Fs, 'yaxis');
-title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-points FFT', bits, Fs/1000, 128));
+% figure;
+% imagesc((0:xblocks)*N/Fs*1000, fbin*k/1000, myspec');
+% axis xy; colorbar;
+% xlabel('Time (ms)'); ylabel('Frequency (kHz)');
+% title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-point Goertzel', bits, Fs/1000, N));
+% 
+% figure;
+% imagesc((0:xblocks)*N/Fs*1000, fbin*k/1000, myspecbin');
+% axis xy; colorbar;
+% xlabel('Time (ms)'); ylabel('Frequency (kHz)');
+% title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-point Goertzel, th=%1.f', bits, Fs/1000, N, th));
+% 
+% figure;
+% spectrogram(x, hamming(128), 120, 128, Fs, 'yaxis');
+% title(sprintf('DTMF test, %d-bit Fs=%.1f kHz, %d-points FFT', bits, Fs/1000, 128));

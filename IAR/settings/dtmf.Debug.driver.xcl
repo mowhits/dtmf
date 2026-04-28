@@ -1,10 +1,16 @@
 --endian=little
 
---cpu=Cortex-M3
+--cpu=ARM7TDMI-S
 
 --fpu=None
 
+-p
+
+C:\iar\ewarm-9.70.4\arm\config\debugger\NXP\LPC2148.ddf
+
 --semihosting
+
+--device=LPC2148
 
 --multicore_nr_of_cores=1
 

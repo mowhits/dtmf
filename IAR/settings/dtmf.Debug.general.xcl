@@ -6,6 +6,8 @@ C:\iar\ewarm-9.70.4\arm\bin\armproc.dll
 
  --plugin=C:\iar\ewarm-9.70.4\arm\bin\armLibSupportUniversal.dll
 
+ --device_macro=C:\iar\ewarm-9.70.4\arm/config/debugger/NXP/LPC21xx_LPC22xx.dmac
+
  
 
 

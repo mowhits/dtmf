@@ -3584,6 +3584,12 @@
         </settings>
     </configuration>
     <file>
+        <name>$PROJ_DIR$\lpc214x.h</name>
+    </file>
+    <file>
         <name>$PROJ_DIR$\main.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\sinlut.h</name>
     </file>
 </project>

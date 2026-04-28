@@ -1,0 +1,386 @@
+###############################################################################
+#
+# IAR ELF Linker V9.70.4.588/W64 for ARM                  28/Apr/2026  07:07:21
+# Copyright 2007-2026 IAR Systems AB.
+#
+#    Output file  =
+#        C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Exe\dtmf.out_nochecksum
+#    Map file     =  C:\Users\Mohit\Desktop\DTMF\IAR\Debug\List\dtmf.map
+#    Command line =
+#        -f C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Exe\dtmf.out_nochecksum.rsp
+#        (C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Obj\main.o --no_out_extension
+#        -o C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Exe\dtmf.out_nochecksum
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
+#        --map C:\Users\Mohit\Desktop\DTMF\IAR\Debug\List\dtmf.map --config
+#        C:\iar\ewarm-9.70.4\arm/config/linker/NXP/LPC2148.icf --semihosting
+#        --entry __iar_program_start --vfe --text_out locale --cpu=ARM7TDMI-S
+#        --fpu=None) --diagnostics_format=sarif_stdout --dependencies=n
+#        C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Exe\dtmf.out_nochecksum.iar_deps
+#        --dynamic_output
+#        C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Exe\dtmf.out_nochecksum.iar_dynout
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__CPP_Runtime   = 1
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because --advanced_heap
+was not specified and the application did not appear to
+be primarily optimized for speed.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at address 0x0 {  ro section .intvec };
+"P1":  place in [from 0x0 to 0x1fb] |
+                [from 0x200 to 0x7'ffff] {  ro };
+define block CSTACK with size = 4K, alignment = 8 { };
+define block SVC_STACK with size = 16, alignment = 8 { };
+define block IRQ_STACK with size = 80, alignment = 8 { };
+define block FIQ_STACK with size = 16, alignment = 8 { };
+define block UND_STACK with size = 16, alignment = 8 { };
+define block ABT_STACK with size = 16, alignment = 8 { };
+define block HEAP with size = 8K, alignment = 8 { };
+"P2":  place in [from 0x4000'0000 to 0x4000'003f] |
+                [from 0x4000'0120 to 0x4000'7fdf] {
+           rw,  block CSTACK,  block SVC_STACK,  block IRQ_STACK,
+           block FIQ_STACK,  block UND_STACK,  block ABT_STACK,  block HEAP };
+
+No sections matched the following patterns:
+
+  section .crp     in "P3"
+  section DMA_RAM  in "P4"
+
+
+  Section          Kind         Address  Alignment    Size  Object
+  -------          ----         -------  ---------    ----  ------
+"A0":                                                 0x40
+  .intvec          ro code          0x0          4    0x40  cstartup.o [4]
+                                 - 0x40               0x40
+
+"P1", part 1 of 2:                                   0x164
+  .text            ro code         0x40          2     0xa  xsprout.o [2]
+  .text            ro code         0x4c          4    0x20  strchr.o [4]
+  .text            ro code         0x6c          4    0x4e  xfail_s.o [2]
+  .text            ro code         0xba          2     0x2  xprintffull_nomb.o [2]
+  .text            ro code         0xbc          4    0x54  strlen.o [4]
+  .text            ro code        0x110          4    0x94  memchr.o [4]
+                                - 0x1a4              0x164
+
+"P1", part 2 of 2:                                  0x2ab4
+  Veneer           ro code        0x200          4    0x10  - Linker created -
+  Veneer           ro code        0x210          4    0x10  - Linker created -
+  Veneer           ro code        0x220          4    0x10  - Linker created -
+  Veneer           ro code        0x230          4    0x10  - Linker created -
+  Veneer           ro code        0x240          4    0x10  - Linker created -
+  Veneer           ro code        0x250          4    0x10  - Linker created -
+  Veneer           ro code        0x260          4    0x10  - Linker created -
+  Veneer           ro code        0x270          4    0x10  - Linker created -
+  Veneer           ro code        0x280          4    0x10  - Linker created -
+  Veneer           ro code        0x290          4    0x10  - Linker created -
+  Veneer           ro code        0x2a0          4    0x10  - Linker created -
+  Veneer           ro code        0x2b0          4    0x10  - Linker created -
+  Veneer           ro code        0x2c0          4    0x10  - Linker created -
+  Veneer           ro code        0x2d0          4    0x10  - Linker created -
+  Veneer           ro code        0x2e0          4    0x10  - Linker created -
+  Veneer           ro code        0x2f0          4    0x10  - Linker created -
+  Veneer           ro code        0x300          4    0x10  - Linker created -
+  Veneer           ro code        0x310          4    0x10  - Linker created -
+  .text            ro code        0x320          4   0xfb2  xprintffull_nomb.o [2]
+  .text            ro code       0x12d4          4    0xd4  ABImemcpy.o [4]
+  .text            ro code       0x13a8          4    0x7c  frexp.o [3]
+  .text            ro code       0x1424          4    0x38  DblCmpLe.o [3]
+  .text            ro code       0x145c          4    0x38  DblCmpGe.o [3]
+  .text            ro code       0x1494          4   0x13c  ldexp.o [3]
+  .text            ro code       0x15d0          4    0x54  DblToS32.o [3]
+  .text            ro code       0x1624          4    0x60  S32ToDbl.o [3]
+  .text            ro code       0x1684          4   0x200  DblSub.o [3]
+  .text            ro code       0x1884          4   0x1d4  I32DivMod.o [4]
+  .text            ro code       0x1a58          4   0x334  DblDiv.o [3]
+  .text            ro code       0x1d8c          4    0x3c  DblToU32.o [3]
+  .text            ro code       0x1dc8          4    0x58  U32ToDbl.o [3]
+  .text            ro code       0x1e20          4   0x1f4  DblMul.o [3]
+  .text            ro code       0x2014          4    0xd4  I64DivMod.o [4]
+  Veneer           ro code       0x20e8          4    0x10  - Linker created -
+  .text            ro code       0x20f8          2     0x2  xprintffull_nomb.o [2]
+  .text            ro code       0x20fa          2     0xc  abort.o [2]
+  .text            ro code       0x2108          4   0x138  DblAdd.o [3]
+  .text            ro code       0x2240          4     0x4  IntDivZer.o [4]
+  .text            ro code       0x2244          4     0x4  I64DivZer.o [4]
+  .text            ro code       0x2248          4    0x20  exit.o [5]
+  .text            ro code       0x2268          4   0x5fc  cos_sin64.o [3]
+  Veneer           ro code       0x2864          4    0x10  - Linker created -
+  .text            ro code       0x2874          4   0x1e8  main.o [1]
+  .text            ro code       0x2a5c          4    0x40  sprintf.o [2]
+  .rodata          const         0x2a9c          4    0x6a  xprintffull_nomb.o [2]
+  .text            ro code       0x2b08          4    0x58  cstartup.o [4]
+  Veneer           ro code       0x2b60          4     0xc  - Linker created -
+  Veneer           ro code       0x2b6c          4     0xc  - Linker created -
+  Veneer           ro code       0x2b78          4     0xc  - Linker created -
+  Veneer           ro code       0x2b84          4     0xc  - Linker created -
+  .text            ro code       0x2b90          4    0x34  cmain.o [4]
+  .text            ro code       0x2bc4          2     0x4  low_level_init.o [2]
+  .text            ro code       0x2bc8          4    0x32  data_init.o [4]
+  Veneer           ro code       0x2bfc          4    0x10  - Linker created -
+  .text            ro code       0x2c0c          2     0xa  exit.o [2]
+  .text            ro code       0x2c18          4     0x4  cexit.o [4]
+  .text            ro code       0x2c1c          4    0x10  cexit_2.o [4]
+  .text            ro code       0x2c2c          2    0x3c  zero_init3.o [4]
+  .iar.init_table  const         0x2c68          4    0x10  - Linker created -
+  .rodata          const         0x2c78          4    0x18  main.o [1]
+  .rodata          const         0x2c90          4    0x14  main.o [1]
+  .rodata          const         0x2ca4          4     0x8  main.o [1]
+  .text            ro code       0x2cac          4     0x4  vectortrap.o [4]
+  .text            ro code       0x2cb0          4     0x4  xreturnswi.o [5]
+  .rodata          const         0x2cb4                0x0  zero_init3.o [4]
+                               - 0x2cb4             0x2ab4
+
+"P2", part 1 of 2:                                     0x8
+  .bss             zero     0x4000'0120          4     0x4  xfail_s.o [2]
+  .bss             zero     0x4000'0124                0x1  main.o [1]
+  .bss             zero     0x4000'0125                0x1  main.o [1]
+  .bss             zero     0x4000'0126                0x1  main.o [1]
+  .bss             zero     0x4000'0127                0x1  main.o [1]
+                          - 0x4000'0128                0x8
+
+"P2", part 2 of 2:                                  0x1060
+  CSTACK                    0x4000'0128          8  0x1000  <Block>
+    CSTACK         uninit   0x4000'0128             0x1000  <Block tail>
+  IRQ_STACK                 0x4000'1128          8    0x50  <Block>
+    IRQ_STACK      uninit   0x4000'1128               0x50  <Block tail>
+  FIQ_STACK                 0x4000'1178          8    0x10  <Block>
+    FIQ_STACK      uninit   0x4000'1178               0x10  <Block tail>
+                          - 0x4000'1188             0x1060
+
+Unused ranges:
+
+         From           To      Size
+         ----           --      ----
+        0x1a4        0x1fb      0x58
+       0x2cb4     0x7'ffff  0x7'd34c
+  0x4000'0000  0x4000'003f      0x40
+  0x4000'1188  0x4000'7fdf    0x6e58
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address      Size
+          -------      ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x8:
+          0x4000'0120   0x8
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module              ro code  ro data  rw data
+    ------              -------  -------  -------
+command line/config:
+    ---------------------------------------------
+    Total:
+
+C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Obj: [1]
+    main.o                  488       52        4
+    ---------------------------------------------
+    Total:                  488       52        4
+
+dl4t_tln.a: [2]
+    abort.o                  12
+    exit.o                   10
+    low_level_init.o          4
+    sprintf.o                64
+    xfail_s.o                78                 4
+    xprintffull_nomb.o    4'022      106
+    xsprout.o                10
+    ---------------------------------------------
+    Total:                4'200      106        4
+
+m4t_al.a: [3]
+    DblAdd.o                312
+    DblCmpGe.o               56
+    DblCmpLe.o               56
+    DblDiv.o                820
+    DblMul.o                500
+    DblSub.o                512
+    DblToS32.o               84
+    DblToU32.o               60
+    S32ToDbl.o               96
+    U32ToDbl.o               88
+    cos_sin64.o           1'532
+    frexp.o                 124
+    ldexp.o                 316
+    ---------------------------------------------
+    Total:                4'556
+
+rt4t_al.a: [4]
+    ABImemcpy.o             212
+    I32DivMod.o             468
+    I64DivMod.o             212
+    I64DivZer.o               4
+    IntDivZer.o               4
+    cexit.o                   4
+    cexit_2.o                16
+    cmain.o                  52
+    cstartup.o              152
+    data_init.o              50
+    memchr.o                148
+    strchr.o                 32
+    strlen.o                 84
+    vectortrap.o              4
+    zero_init3.o             60
+    ---------------------------------------------
+    Total:                1'502
+
+shs_l.a: [5]
+    exit.o                   32
+    xreturnswi.o              4
+    ---------------------------------------------
+    Total:                   36
+
+    Gaps                     12
+    Linker created          384       16    4'192
+-------------------------------------------------
+    Grand Total:         11'178      174    4'200
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                       Address   Size  Type      Object
+-----                       -------   ----  ----      ------
+.iar.init_table$$Base        0x2c68          --   Gb  - Linker created -
+.iar.init_table$$Limit       0x2c78          --   Gb  - Linker created -
+?main                        0x2b90         Code  Gb  cmain.o [4]
+Abort_Handler                0x2cac         Code  Wk  vectortrap.o [4]
+CSTACK$$Base            0x4000'0128          --   Gb  - Linker created -
+CSTACK$$Limit           0x4000'1128          --   Gb  - Linker created -
+FIQ_Handler                  0x2cac         Code  Wk  vectortrap.o [4]
+FIQ_STACK$$Base         0x4000'1178          --   Gb  - Linker created -
+FIQ_STACK$$Limit        0x4000'1188          --   Gb  - Linker created -
+Hyp_Handler                  0x2cac         Code  Wk  vectortrap.o [4]
+IRQ_Handler                  0x2cac         Code  Wk  vectortrap.o [4]
+IRQ_STACK$$Base         0x4000'1128          --   Gb  - Linker created -
+IRQ_STACK$$Limit        0x4000'1178          --   Gb  - Linker created -
+Prefetch_Handler             0x2cac         Code  Wk  vectortrap.o [4]
+Region$$Table$$Base          0x2c68          --   Gb  - Linker created -
+Region$$Table$$Limit         0x2c78          --   Gb  - Linker created -
+SWI_Handler                  0x2cac         Code  Wk  vectortrap.o [4]
+Undefined_Handler            0x2cac         Code  Wk  vectortrap.o [4]
+_LC                           0x321    0x8  Code  Lc  xprintffull_nomb.o [2]
+_LitobFullNoMb               0x1117  0x12c  Code  Lc  xprintffull_nomb.o [2]
+_PrintfFullNoMb               0x329  0xdee  Code  Gb  xprintffull_nomb.o [2]
+_PutcharsFullNoMb            0x1295   0x3c  Code  Lc  xprintffull_nomb.o [2]
+_SProut                        0x41    0xa  Code  Gb  xsprout.o [2]
+__aeabi_cdcmple              0x1424         Code  Gb  DblCmpLe.o [3]
+__aeabi_cdrcmple             0x145c         Code  Gb  DblCmpGe.o [3]
+__aeabi_d2iz                 0x15d0         Code  Gb  DblToS32.o [3]
+__aeabi_d2uiz                0x1d8c         Code  Gb  DblToU32.o [3]
+__aeabi_dadd                 0x2108         Code  Gb  DblAdd.o [3]
+__aeabi_ddiv                 0x1a58         Code  Gb  DblDiv.o [3]
+__aeabi_dmul                 0x1e20         Code  Gb  DblMul.o [3]
+__aeabi_dsub                 0x1684         Code  Gb  DblSub.o [3]
+__aeabi_i2d                  0x1624         Code  Gb  S32ToDbl.o [3]
+__aeabi_idiv                 0x1884         Code  Gb  I32DivMod.o [4]
+__aeabi_idiv0                0x2240         Code  Gb  IntDivZer.o [4]
+__aeabi_idivmod              0x1884         Code  Gb  I32DivMod.o [4]
+__aeabi_ldiv0                0x2244         Code  Gb  I64DivZer.o [4]
+__aeabi_memcpy               0x12d4         Code  Gb  ABImemcpy.o [4]
+__aeabi_memcpy4              0x12f8         Code  Gb  ABImemcpy.o [4]
+__aeabi_memcpy8              0x12f8         Code  Gb  ABImemcpy.o [4]
+__aeabi_ui2d                 0x1dc8         Code  Gb  U32ToDbl.o [3]
+__aeabi_uidiv                0x18b4         Code  Gb  I32DivMod.o [4]
+__aeabi_uidivmod             0x18b4         Code  Gb  I32DivMod.o [4]
+__aeabi_uldivmod             0x2014         Code  Gb  I64DivMod.o [4]
+__cmain                      0x2b90         Code  Gb  cmain.o [4]
+__exit                       0x2248   0x20  Code  Gb  exit.o [5]
+__iar_Fail_s                   0x6d   0x26  Code  Gb  xfail_s.o [2]
+__iar_Memchr                  0x110         Code  Gb  memchr.o [4]
+__iar_Sin64                  0x2268  0x588  Code  Lc  cos_sin64.o [3]
+__iar_Strchr                   0x4c         Code  Gb  strchr.o [4]
+__iar_dadd                   0x2118         Code  Gb  DblAdd.o [3]
+__iar_data_init3             0x2bc9   0x30  Code  Gb  data_init.o [4]
+__iar_dsub                   0x1694         Code  Gb  DblSub.o [3]
+__iar_dsubStart              0x16b4         Code  Gb  DblSub.o [3]
+__iar_frexp                  0x13c0         Code  Gb  frexp.o [3]
+__iar_frexp64                0x13a8         Code  Gb  frexp.o [3]
+__iar_frexpl                 0x13c0         Code  Gb  frexp.o [3]
+__iar_ldexp64                0x1494         Code  Gb  ldexp.o [3]
+__iar_program_start          0x2b08         Code  Gb  cstartup.o [4]
+__iar_return_from_swi        0x2cb0    0x4  Code  Gb  xreturnswi.o [5]
+__iar_scalbln64              0x1494         Code  Gb  ldexp.o [3]
+__iar_scalbn64               0x1494         Code  Gb  ldexp.o [3]
+__iar_sin64                  0x285c    0x8  Code  Gb  cos_sin64.o [3]
+__iar_sin_medium             0x285c    0x8  Code  Gb  cos_sin64.o [3]
+__iar_sin_medium64           0x285c    0x8  Code  Gb  cos_sin64.o [3]
+__iar_sin_mediuml            0x285c    0x8  Code  Gb  cos_sin64.o [3]
+__iar_zero_init3             0x2c2d   0x3c  Code  Gb  zero_init3.o [4]
+__low_level_init             0x2bc5    0x4  Code  Gb  low_level_init.o [2]
+__vector                        0x0         Data  Gb  cstartup.o [4]
+_call_main                   0x2ba8         Code  Gb  cmain.o [4]
+_exit                        0x2c18         Code  Gb  cexit.o [4]
+_exit_2                      0x2c1c         Code  Gb  cexit_2.o [4]
+abort                        0x20fb    0xc  Code  Gb  abort.o [2]
+charLCD                      0x2923   0x32  Code  Gb  main.o [1]
+cmdLCD                       0x28cf   0x30  Code  Gb  main.o [1]
+delay_ms                     0x2875   0x32  Code  Gb  main.o [1]
+exit                         0x2c0d    0xa  Code  Gb  exit.o [2]
+frexp                        0x13a8         Code  Gb  frexp.o [3]
+frexpl                       0x13a8         Code  Gb  frexp.o [3]
+getkey                       0x297d   0x7a  Code  Gb  main.o [1]
+i                       0x4000'0124    0x1  Data  Gb  main.o [1]
+initLCD                      0x28ff   0x24  Code  Gb  main.o [1]
+initLPC                      0x28a7   0x28  Code  Gb  main.o [1]
+keycode                      0x2c90   0x14  Data  Gb  main.o [1]
+keyret                  0x4000'0127    0x1  Data  Gb  main.o [1]
+keyscan                 0x4000'0126    0x1  Data  Gb  main.o [1]
+ldexp                        0x1494         Code  Gb  ldexp.o [3]
+ldexpl                       0x1494         Code  Gb  ldexp.o [3]
+main                         0x29f7   0x28  Code  Gb  main.o [1]
+memchr                        0x110         Code  Gb  memchr.o [4]
+row                     0x4000'0125    0x1  Data  Gb  main.o [1]
+scalbln                      0x1494         Code  Gb  ldexp.o [3]
+scalblnl                     0x1494         Code  Gb  ldexp.o [3]
+scalbn                       0x1494         Code  Gb  ldexp.o [3]
+scalbnl                      0x1494         Code  Gb  ldexp.o [3]
+scale                        0x1243   0x48  Code  Lc  xprintffull_nomb.o [2]
+scan                         0x2ca4    0x8  Data  Gb  main.o [1]
+sec_hand                0x4000'0120    0x4  Data  Lc  xfail_s.o [2]
+sin                          0x285c    0x8  Code  Gb  cos_sin64.o [3]
+sinl                         0x285c    0x8  Code  Gb  cos_sin64.o [3]
+sprintf                      0x2a5d   0x40  Code  Gb  sprintf.o [2]
+strchr                         0x4c         Code  Gb  strchr.o [4]
+stringLCD                    0x2955   0x28  Code  Gb  main.o [1]
+strlen                         0xbc         Code  Gb  strlen.o [4]
+
+
+[1] = C:\Users\Mohit\Desktop\DTMF\IAR\Debug\Obj
+[2] = dl4t_tln.a
+[3] = m4t_al.a
+[4] = rt4t_al.a
+[5] = shs_l.a
+
+  11'178 bytes of readonly  code memory
+     174 bytes of readonly  data memory
+   4'200 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
