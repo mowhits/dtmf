@@ -6,17 +6,17 @@
 #include <stdint.h>
 
 #define SINLUT_H
-#define MAXN 1000
 #define N 200
 #define B 12
 #define FS 4000
+#define TH 2000000
 
 // Goertzel setup 
 const uint16_t frow[4] = {697, 770, 852, 941};
 const uint16_t fcol[4] = {1209, 1336, 1477, 1633};
 const unsigned char syms[16] = {'1', '4', '7', '*', '2', '5', '8', '0', '3', '6', '9', '#', 'A', 'B', 'C', 'D'};
 const unsigned char symmtx[4][4] = {{0, 4, 8, 12}, {1, 5, 9, 13}, {2, 6, 10, 14}, {3, 7, 11, 15}};
-int32_t win[MAXN]; // hamming window coefficients
+int32_t win[N]; // hamming window coefficients
 float w, S = 1 << B;
 int32_t c[8], cw[8], sw[8]; // Goertzel coefficients
 int32_t I[8], Q[8], M2[8]; // Goertzel output: real, imaginary, magnitude^2i
@@ -29,18 +29,23 @@ unsigned char i, lcdval, row, keyscan, keyret, keynum=0, keypress, scanret=0xFF;
 // ADC setup
 float adc_buf[N];
 uint8_t done;
-// delay function
+
+// delay functions
 void delay_ms(uint16_t j) {
     uint16_t x, i;
     for (i = 0; i < j; i++) { for (x = 0; x < 6000; x++); }
 }
+void delay_us(uint16_t j) {
+    uint16_t x, i;
+    for (i = 0; i < j; i++) { for (x = 0; x < 6; x++); }
+}
+
 // LPC initialization 
 void initLPC(void) {
    PINSEL0 = 0x00;
    PINSEL1 = 0x01080000;
    IO0DIR = 0xEFF0FFFF;
    AD0CR = 0x00200402;
-   int terrible = sin(2);
 }
 // LCD initialization and helpers
 void cmdLCD(char cmd) {
@@ -107,19 +112,16 @@ void tx_rx(uint8_t sym) {
     for (idx = 0; idx < N; idx++) {
         DACR = sin_lut[sym][idx] << 6;
         AD0CR |= (1 << 24);
-        while (!(AD0DR1 & (1 << 31)));
-        res = (AD0DR1 >> 6) & 0x3FF;
-        adc_buf[idx] = (res / 512) - 1;
-        delay_ms(1);
+        while (!(AD0GDR & (1 << 31)));
+        // check the normalization here
+        adc_buf[idx] = (AD0GDR >> 6) & 0x3FF;
+        delay_us(250);
     }
 }
 
-// goertzel for single symbol, 200 samples.
-char goertzel(void) {
-    uint16_t idx, n;
-    int32_t x, z0, th, z1[8] = {0}, z2[8] = {0};
-    int8_t i1 = -1, i2 = -1;
-
+// goertzel consts init
+void initGoertzel(void) {
+    uint16_t idx;
     // hamming window coefficients 
     for (idx = 0; idx < N; idx++) {
         win[idx] = (int)round(S*(0.54 -0.46*cosf(2.0*M_PI*(float)idx/(float)(N-1))));
@@ -129,10 +131,17 @@ char goertzel(void) {
         w = 2.0*M_PI*round((float)N*(float)frow[idx]/(float)FS)/(float)N;
         cw[idx] = (int)round(S*cosf(w)); c[idx] = cw[idx] << 1;
         sw[idx] = (int)round(S*sinf(w));
-        w = 2.0*M_PI*round((float)N*(float)fcol[i]/(float)FS)/(float)N;
+        w = 2.0*M_PI*round((float)N*(float)fcol[idx]/(float)FS)/(float)N;
         cw[idx+4] = (int)round(S*cosf(w)); c[idx+4] = cw[idx+4] << 1;
         sw[idx+4] = (int)round(S*sinf(w));
     }
+}
+
+// goertzel for single symbol, 200 samples.
+char goertzel(void) {
+    uint16_t idx, n;
+    int32_t x, z0, z1[8] = {0}, z2[8] = {0};
+    int8_t i1 = -1, i2 = -1;
 
     for (n = 0; n < N; n++) {
         x = adc_buf[n];
@@ -144,12 +153,12 @@ char goertzel(void) {
             z2[idx] = z1[idx]; z1[idx] = z0;
         }
 
-        for (idx = 0; idx < 8; i++) {
+        for (idx = 0; idx < 8; idx++) {
             I[idx] = ((cw[idx]*z1[idx]) >> B) - z2[idx];
             Q[idx] = ((sw[idx]*z1[idx]) >> B);
             M2[idx] = I[idx]*I[idx] + Q[idx]*Q[idx];
-            if (M2[idx] > th) {
-                if (idx < 4) { if (i1 == -2) i1 = idx; else i1 = 4;}
+            if (M2[idx] > TH) {
+                if (idx < 4) { if (i1 == -1) i1 = idx; else i1 = 4;}
                 else {if (i2 == -1) i2 = idx - 4; else i2 = 4;}
             }
         }
@@ -165,8 +174,10 @@ int main(void) {
     char buf[20];
     char decoded;
     uint8_t sym = 0;
+
     initLPC();
     initLCD();
+    initGoertzel();
 
     while (1) {
         done = 0;
