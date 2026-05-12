@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <sys/types.h>
 #include <stdint.h>
 
 #define SINLUT_H
@@ -94,7 +95,7 @@ int getkey(void) {
         keyscan = scan[row];
         IO0SET = keyscan << 16;
         delay_ms(2);
-        keyscan = IO0PIN >> 16 & 0xF0;
+        keyret = IO0PIN >> 16 & 0xF0;
         if (keyscan != keyret) break;
         row++;
     }
@@ -152,22 +153,21 @@ char goertzel(void) {
             z0 = x + ((c[idx] * z1[idx]) >> B) - z2[idx];
             z2[idx] = z1[idx]; z1[idx] = z0;
         }
-
-        for (idx = 0; idx < 8; idx++) {
-            I[idx] = ((cw[idx]*z1[idx]) >> B) - z2[idx];
-            Q[idx] = ((sw[idx]*z1[idx]) >> B);
-            M2[idx] = I[idx]*I[idx] + Q[idx]*Q[idx];
-            if (M2[idx] > TH) {
-                if (idx < 4) { if (i1 == -1) i1 = idx; else i1 = 4;}
-                else {if (i2 == -1) i2 = idx - 4; else i2 = 4;}
-            }
-        }
-
-        if ((i1 > -1) && (i1 < 4) && (i2 > -1) && (i2 < 4)) return syms[symmtx[i1][i2]];
-        else return ' ';
     }
 
-    return 0;
+    for (idx = 0; idx < 8; idx++) {
+        I[idx] = ((cw[idx]*z1[idx]) >> B) - z2[idx];
+        Q[idx] = ((sw[idx]*z1[idx]) >> B);
+        M2[idx] = I[idx]*I[idx] + Q[idx]*Q[idx];
+        if (M2[idx] > TH) {
+            if (idx < 4) { if (i1 == -1) i1 = idx; else i1 = 4;}
+            else {if (i2 == -1) i2 = idx - 4; else i2 = 4;}
+        }
+    }
+
+    if ((i1 > -1) && (i1 < 4) && (i2 > -1) && (i2 < 4)) return syms[symmtx[i1][i2]];
+    else return ' ';
+
 }
 
 int main(void) {
